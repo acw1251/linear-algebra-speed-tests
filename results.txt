@@ -4,4 +4,5 @@ Armadillo C++ library:
 
 Custom functions:
 * 20x20 LDLt decomposition: 2.4 us
-* 20x20 LDLt decomposition with the solve steps: 2.9 us
+* 20x20 LDLt decomposition with one solve step: 2.9 us
+* 20x20 LDLt decomposition with two solve steps: 3.4 us
