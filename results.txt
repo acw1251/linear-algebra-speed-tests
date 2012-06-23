@@ -1,0 +1,3 @@
+
+Armadillo C++ library:
+* 20x20 LU decomposition with partial pivoting = 7.9 us
