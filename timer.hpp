@@ -11,8 +11,12 @@
 
 #include <ctime>
 
+namespace timer {
+
 void start_timer();
 double stop_timer();
+
+}
 
 #endif // TIMER_HPP
 

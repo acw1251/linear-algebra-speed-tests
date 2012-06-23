@@ -8,6 +8,8 @@
 
 #include "timer.hpp"
 
+namespace timer {
+
 clock_t start_clock;
 
 /**
@@ -31,5 +33,7 @@ double stop_timer()
 {
     clock_t stop_clock = clock();
     return (double)(stop_clock - start_clock) / CLOCKS_PER_SEC;
+}
+
 }
 
