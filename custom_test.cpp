@@ -15,9 +15,31 @@
 
 #include "timer.hpp"
 
+#define TEST_ALGORITHM( algorithmname, A ) \
+    time = 0; \
+    num_tests = 1; \
+    while( time < min_time ) { \
+        cout << "Begining " << algorithmname << " with " << num_tests << " repetitions." << endl; \
+        timer::start_timer(); \
+        for( i = 0 ; i < num_tests ; i++ ) { \
+            A \
+        } \
+        time = timer::stop_timer(); \
+        if( time < min_time ) { \
+            cout << "Test completed too fast" << endl; \
+            num_tests *= 10; \
+        } \
+    } \
+    cout << algorithmname << " done." << endl; \
+    cout << "Total time = " << time * 1e3 << " ms" << endl; \
+    time_per = time / num_tests; \
+    cout << "Time per repetition = " << time_per * 1e6 << " us" << endl << endl;
+
 using namespace std;
 
-int const size = 20;
+// Global variable set by user input
+// This variable is used in all of the functions below
+int size;
 
 void mult( double* A, double* B, double* Result );
 void aat( double* A, double* Result );
@@ -26,11 +48,35 @@ void ldlt_solve( double* L, double* D, double* b, double* x, double* workspace )
 
 int main( int argc, char *argv[] )
 {
-    int const num_tests = 1000000;
+    int num_tests;
     int i, j, k;
+    double min_time;
     double time;
     double time_per;
     double *workspace, *A, *L, *D, *b, *x;
+
+    cout << endl << endl;
+    cout << "This program runs sample LDLt decompositions and solves" << endl;
+    cout << "for NxN matricies where N is given by the user." << endl;
+    cout << endl;
+
+    cout << "N = ";
+    cin >> size;
+    cout << endl;
+
+    if( size <= 1 ) {
+        cout << "Error! N must be greater than 1." << endl;
+        exit(1);
+    }
+
+    cout << "Minimum amount of time to measure = ";
+    cin >> min_time;
+    cout << endl;
+
+    if( min_time < 0.001 ) {
+        cout << "Error! Minimum time to measure must be at least 1 ms." << endl;
+        exit(1);
+    }
 
     workspace = new double[size*size];
     A = new double[size*size];
@@ -51,44 +97,22 @@ int main( int argc, char *argv[] )
     aat( workspace, A );
 
     // LDLt decomposition
-    cout << "Begining LDLt decomposition." << endl;
-    timer::start_timer();
-    for( i = 0 ; i < num_tests ; i++ ) {
+    TEST_ALGORITHM( "LDLt decomposition" ,
         ldlt( A, L, D );
-    }
-    time = timer::stop_timer();
-    cout << "LDLt decomposition done." << endl;
-    cout << "Total time = " << time * 1e3 << " ms" << endl;
-    time_per = time / num_tests;
-    cout << "Time per decomposition = " << time_per * 1e6 << " us" << endl << endl;
+    )
 
     // LDLt decomposition with solve
-    cout << "Begining LDLt with solve steps." << endl;
-    timer::start_timer();
-    for( i = 0 ; i < num_tests ; i++ ) {
+    TEST_ALGORITHM( "LDLt decomposition with 1 solve" ,
         ldlt( A, L, D );
         ldlt_solve( L, D, b, x, workspace );
-    }
-    time = timer::stop_timer();
-    cout << "LDLt with solve steps done." << endl;
-    cout << "Total time = " << time * 1e3 << " ms" << endl;
-    time_per = time / num_tests;
-    cout << "Time per iteration = " << time_per * 1e6 << " us" << endl << endl;
+    )
 
-    // LDLt decomposition with two solves
-    cout << "Begining LDLt with two solve steps." << endl;
-    timer::start_timer();
-    for( i = 0 ; i < num_tests ; i++ ) {
+    // LDLt decomposition with 2 solve steps
+    TEST_ALGORITHM( "LDLt decomposition with 2 solves" ,
         ldlt( A, L, D );
         ldlt_solve( L, D, b, x, workspace );
         ldlt_solve( L, D, b, x, workspace );
-    }
-    time = timer::stop_timer();
-    cout << "LDLt with two solve steps done." << endl;
-    cout << "Total time = " << time * 1e3 << " ms" << endl;
-    
-    time_per = time / num_tests;
-    cout << "Time per iteration = " << time_per * 1e6 << " us" << endl << endl;
+    )
 }
 
 // Result = A * B
