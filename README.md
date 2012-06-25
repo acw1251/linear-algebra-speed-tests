@@ -15,10 +15,22 @@ Currently there are two speed tests:
         * LDLt decomposition: 2.34 us
         * LDLt decomposition with one solve step: 2.81 us
         * LDLt decomposition with two solve steps: 3.28 us
+    * 50x50 Matricies:
+        * LDLt decomposition: 25.9 us
+        * LDLt decomposition with one solve step: 28.9 us
+        * LDLt decomposition with two solve steps: 31.5 us
     * 100x100 Matricies:
         * LDLt decomposition: 178 us
         * LDLt decomposition with one solve step: 188 us
         * LDLt decomposition with two solve steps: 197 us
+    * 200x200 Matricies:
+        * LDLt decomposition: 1.38 ms
+        * LDLt decomposition with one solve step: 1.43 ms
+        * LDLt decomposition with two solve steps: 1.47 ms
+    * 500x500 Matricies:
+        * LDLt decomposition: 226 ms
+        * LDLt decomposition with one solve step: 229 ms
+        * LDLt decomposition with two solve steps: 231 ms
     * 1000x1000 Matricies:
         * LDLt decomposition: 621 ms
         * LDLt decomposition with one solve step: 624 ms
