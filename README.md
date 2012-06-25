@@ -23,6 +23,3 @@ Currently there are two speed tests:
         * LDLt decomposition: 621 ms
         * LDLt decomposition with one solve step: 624 ms
         * LDLt decomposition with two solve steps: 627 ms
-        * 20x20 LDLt decomposition: 2.4 us
-        * 20x20 LDLt decomposition with one solve step: 2.9 us
-        * 20x20 LDLt decomposition with two solve steps: 3.4 us
