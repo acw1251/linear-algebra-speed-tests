@@ -41,12 +41,15 @@ using namespace std;
 // This variable is used in all of the functions below
 int size;
 
-void mult( double* A, double* B, double* Result );
-void aat( double* A, double* Result );
-void ldlt( double* A, double* L, double* D );
-void ldlt_solve( double* L, double* D, double* b, double* x, double* workspace );
+// Change this typedef to float to get the results for single precision
+typedef double float_type;
+void mult( float_type* A, float_type* B, float_type* Result );
+void aat( float_type* A, float_type* Result );
+void ldlt( float_type* A, float_type* L, float_type* D );
+void ldlt_solve( float_type* L, float_type* D, float_type* b, float_type* x, float_type* workspace );
 
 timer::auto_timer global;
+
 
 int main( int argc, char *argv[] )
 {
@@ -55,7 +58,7 @@ int main( int argc, char *argv[] )
     double min_time;
     double time;
     double time_per;
-    double *workspace, *A, *L, *D, *b, *x;
+    float_type *workspace, *A, *L, *D, *b, *x;
 
     cout << endl << endl;
     cout << "This program runs sample LDLt decompositions and solves" << endl;
@@ -80,19 +83,19 @@ int main( int argc, char *argv[] )
         exit(1);
     }
 
-    workspace = new double[size*size];
-    A = new double[size*size];
-    L = new double[size*size];
-    D = new double[size*size];
-    b = new double[size];
-    x = new double[size];
+    workspace = new float_type[size*size];
+    A = new float_type[size*size];
+    L = new float_type[size*size];
+    D = new float_type[size*size];
+    b = new float_type[size];
+    x = new float_type[size];
 
     // random A matrix
     srand( std::time( NULL ) );
     for( i = 0 ; i < size * size; i++ ) {
-        workspace[i] = (double) rand() / RAND_MAX;
+        workspace[i] = (float_type) rand() / RAND_MAX;
         if( i < size ) {
-            b[i] = (double) rand() / RAND_MAX;
+            b[i] = (float_type) rand() / RAND_MAX;
         }
     }
     // A = workspace * workspace^T
@@ -118,7 +121,7 @@ int main( int argc, char *argv[] )
 }
 
 // Result = A * B
-void mult( double* A, double* B, double* Result )
+void mult( float_type* A, float_type* B, float_type* Result )
 {
     int i, j, k;
     for( i = 0 ; i < size ; i++ ) {
@@ -132,7 +135,7 @@ void mult( double* A, double* B, double* Result )
 }
 
 // Result = A * A^T
-void aat( double* A, double* Result )
+void aat( float_type* A, float_type* Result )
 {
     int i, j, k;
     for( i = 0 ; i < size ; i++ ) {
@@ -145,10 +148,10 @@ void aat( double* A, double* Result )
     }
 }
 
-void ldlt( double* A, double* L, double* D )
+void ldlt( float_type* A, float_type* L, float_type* D )
 {
     int i, j, k;
-    double sum_over_k;
+    float_type sum_over_k;
     for( int i = 0 ; i < size ; i++ ) {
         for( int j = 0 ; j < i ; j++ ) {
             if( j == 0 ) {
@@ -175,11 +178,11 @@ void ldlt( double* A, double* L, double* D )
     }
 }
 
-void ldlt_solve( double* L, double* D, double* b, double* x, double* workspace )
+void ldlt_solve( float_type* L, float_type* D, float_type* b, float_type* x, float_type* workspace )
 {
     // workspace is a vector
     int i,j;
-    double tmp;
+    float_type tmp;
 
     // Forward substitution: (solves L*x = b)
     // solving for x(0,0) first and x(n-1,0) last
@@ -215,3 +218,4 @@ void ldlt_solve( double* L, double* D, double* b, double* x, double* workspace )
     }
     // x should now have the solution to Ax = b
 }
+
