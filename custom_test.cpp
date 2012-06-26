@@ -33,7 +33,6 @@
     cout << algorithmname << " done." << endl; \
     cout << "Total time = " << time * 1e3 << " ms" << endl; \
     time_per = time / num_tests; \
-    cout << "Assuming a CPU frequency of " << CLOCKS_PER_SEC / 1000.0 << " MHz" << endl; \
     cout << "Time per repetition = " << time_per * 1e6 << " us" << endl << endl;
 
 using namespace std;
