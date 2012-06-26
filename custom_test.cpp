@@ -47,6 +47,8 @@ void aat( double* A, double* Result );
 void ldlt( double* A, double* L, double* D );
 void ldlt_solve( double* L, double* D, double* b, double* x, double* workspace );
 
+timer::auto_timer global;
+
 int main( int argc, char *argv[] )
 {
     int num_tests;
