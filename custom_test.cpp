@@ -121,7 +121,7 @@ int main( int argc, char *argv[] )
 }
 
 // Result = A * B
-void mult( float_type* A, float_type* B, float_type* Result )
+void mult( float_type * __restrict__ A, float_type * __restrict__ B, float_type * __restrict__ Result )
 {
     int i, j, k;
     for( i = 0 ; i < size ; i++ ) {
@@ -135,7 +135,7 @@ void mult( float_type* A, float_type* B, float_type* Result )
 }
 
 // Result = A * A^T
-void aat( float_type* A, float_type* Result )
+void aat( float_type * __restrict__ A, float_type * __restrict__ Result )
 {
     int i, j, k;
     for( i = 0 ; i < size ; i++ ) {
@@ -148,7 +148,7 @@ void aat( float_type* A, float_type* Result )
     }
 }
 
-void ldlt( float_type* A, float_type* L, float_type* D )
+void ldlt( float_type * __restrict__ A, float_type * __restrict__ L, float_type * __restrict__ D )
 {
     int i, j, k;
     float_type sum_over_k;
@@ -178,7 +178,7 @@ void ldlt( float_type* A, float_type* L, float_type* D )
     }
 }
 
-void ldlt_solve( float_type* L, float_type* D, float_type* b, float_type* x, float_type* workspace )
+void ldlt_solve( float_type * __restrict__ L, float_type * __restrict__ D, float_type * __restrict__ b, float_type * __restrict__ x, float_type * __restrict__ workspace )
 {
     // workspace is a vector
     int i,j;
